@@ -4,17 +4,17 @@ import sys
 #initializing window with yellow colour and window title
 pygame.init()
 screen = pygame.display.set_mode((800, 550))
-font = pygame.font.SysFont("Monospace", 40)
+font = pygame.font.Font("fonts/Retro Gaming.ttf", 40)
 pygame.display.set_caption("cop running simulator - theoretical programmers")
 screen.fill((235, 225, 52))
 
 #main title and credits
-title_font = pygame.font.SysFont("Monospace", 45)
-credits_font = pygame.font.SysFont("Consolas", 20)
+title_font = pygame.font.Font("fonts/Retro Gaming.ttf", 45)
+credits_font = pygame.font.Font("fonts/Retro Gaming.ttf", 17)
 title = title_font.render("Cop Running Simulator!", 1, (0,0,0))
 credit = credits_font.render("By:- Theoretical Programmers",1,(70,70,70))
-screen.blit(title, (100, 50))
-screen.blit(credit, (420, 105))
+screen.blit(title, (80, 50))
+screen.blit(credit, (420, 116))
 
 #button class to easily create buttons and manage them
 class Button:
@@ -33,14 +33,23 @@ class Button:
 
 #start and quit buttons under a rectangular black surface
 pygame.draw.rect(screen, (0, 0, 0), (215, 200, 370,170))
-start_button = Button("Start", x=338, y=220, bg="green")
-end_button = Button("Quit",x=350,y=300, bg="red")
+start_button = Button("Start", x=333, y=220, bg="green")
+end_button = Button("Quit",x=350,y=300, bg=(255,0,0))
 screen.blit(start_button.surface, (start_button.x, start_button.y))
 screen.blit(end_button.surface,(end_button.x,end_button.y))
 
 #handling mouse click events
 def button1_click(event):
     x, y = pygame.mouse.get_pos()
+    #making buttons responsive by chaning colour if hovered over
+    if start_button.rect.collidepoint(x,y):
+        start_button.change_text("Start",bg="white")
+    else:
+        start_button.change_text("Start",bg="green")
+    if end_button.rect.collidepoint(x,y):
+        end_button.change_text("Quit",bg="white")
+    else:
+        end_button.change_text("Quit",bg="red")
     if event.type == pygame.MOUSEBUTTONDOWN:
         if pygame.mouse.get_pressed()[0]:
             if start_button.rect.collidepoint(x, y):
@@ -55,4 +64,6 @@ while True:
         if event.type == pygame.QUIT:
             sys.exit()
         button1_click(event)
+    screen.blit(start_button.surface, (start_button.x, start_button.y))
+    screen.blit(end_button.surface,(end_button.x,end_button.y))
     pygame.display.update()

@@ -1,7 +1,15 @@
 import pygame
+import threading
 import sys
 import time
+pygame.mixer.init()
 
+def background_music():
+    while True:
+        pygame.mixer.music.load("music\\Anttis instrumentals - A guy walks into a bar and orders 6 8.mp3")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+            continue
 
 def play(screen):
     """
@@ -10,6 +18,8 @@ def play(screen):
     Runs currently at 60fps
     It moves the default image to the left to 'teleport' to the end once not seen in the screen
     """
+    x = threading.Thread(target=background_music, daemon=True)
+    x.start()
     bg = pygame.image.load("imgs\\bkg_1house.png")
     x = 0
     now = time.time()

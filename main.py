@@ -1,5 +1,6 @@
 import pygame
 import sys
+from game import play
 
 #initializing window with yellow colour and window title
 pygame.init()
@@ -53,8 +54,7 @@ def button1_click(event):
     if event.type == pygame.MOUSEBUTTONDOWN:
         if pygame.mouse.get_pressed()[0]:
             if start_button.rect.collidepoint(x, y):
-                pass
-                #start game
+                play(screen)
             elif end_button.rect.collidepoint(x,y):
                 sys.exit()
 

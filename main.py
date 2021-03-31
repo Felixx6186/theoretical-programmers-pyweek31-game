@@ -2,7 +2,6 @@ import pygame
 import sys
 from game import play
 
-
 #initializing window with yellow colour and window title
 pygame.init()
 screen = pygame.display.set_mode((800, 550))

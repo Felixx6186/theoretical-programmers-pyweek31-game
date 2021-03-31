@@ -2,7 +2,6 @@ import pygame
 import threading
 import sys
 import time
-
 from random import randint
 
 list_of_imgs = ["imgs\\bkg_1house.png", "imgs\\bkg.png"]  # a list with all the images path
@@ -10,10 +9,7 @@ list_of_bgs = [pygame.image.load(x) for x in list_of_imgs]  # a list of images o
 current_bkg = 0  # a value to be incremented every time the image reaches the end
 bkgs = [list_of_bgs[randint(0, len(list_of_bgs)-1)] for _ in range(1000)]   # a list of a thousend images to be used
 # as list of possible images
-
-
 pygame.mixer.init()
-
 
 def background_music():
     while True:
@@ -21,15 +17,13 @@ def background_music():
         pygame.mixer.music.play()
         while pygame.mixer.music.get_busy() == True:
             continue
-
             
 def random_bkg(number):
     """ will pick a background based on the received number as input and return it could not seem usefull but i
     think later will"""
     global bkgs
     return bkgs[number]
-            
-            
+                        
 def play(screen):
     """
     Play function
@@ -37,14 +31,9 @@ def play(screen):
     Runs currently at 60fps
     It moves the default image to the left to 'teleport' to the end once not seen in the screen
     """
-
     global current_bkg
-
     x = threading.Thread(target=background_music, daemon=True)
     x.start()
-
-    bg = pygame.image.load("imgs\\bkg_1house.png")
-
     x = 0
     now = time.time()
     speed = 6  # By increasing this the background will move faster to the left

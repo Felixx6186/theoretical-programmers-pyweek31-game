@@ -8,6 +8,6 @@ Game made by the 'theoretical programmers' team related to the topic 'cops'
 ```bash
 git clone 'https://github.com/Felixx6186/theoretical-programmers-pyweek31-game' cop_running_simulator  
 cd cop_running_simulator  
-python -m pip install requirements.txt
+python -m pip install -r requirements.txt
 python main.py  
 ```  

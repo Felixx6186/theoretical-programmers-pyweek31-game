@@ -1,6 +1,6 @@
 import pygame
 import sys
-from game import play
+from source.game import play
 
 #initializing window with yellow colour and window title
 pygame.init()

@@ -24,7 +24,7 @@ def random_bkg(number):
     global bkgs
     return bkgs[number]
                         
-def play(screen):
+def play(screen, player):
     """
     Play function
     Takes as input screen <- is the main app screen
@@ -36,7 +36,9 @@ def play(screen):
     x.start()
     x = 0
     now = time.time()
+    now2 = time.time()
     speed = 6  # By increasing this the background will move faster to the left
+    to_draw = 0
     while 1:
         # region Logic to be run every 1/60 secs
         if time.time() - now > 0.0166666:  # if the time elapsed is higher than 1/60
@@ -46,11 +48,24 @@ def play(screen):
                 x = 0
                 current_bkg += 1  # if the images disappears from the screen we need to move each images to the previous
                 # object we can do it by increasing this value
+            if x % 60 == 0:
+                if to_draw == 1:
+                    to_draw = 0
+                else:
+                    to_draw += 1
+            # region Image placing on the screen
+            screen.blit(random_bkg(0 + current_bkg), (0 - x, 0))
+            screen.blit(random_bkg(1 + current_bkg), (800 - x, 0))
+            screen.blit(random_bkg(2 + current_bkg), (1600 - x, 0))
+            # endregion
+            player.draw(to_draw)
+
+
         # endregion
-        # region Image placing on the screen
-        screen.blit(random_bkg(0+current_bkg), (0-x, 0))
-        screen.blit(random_bkg(1+current_bkg), (800-x, 0))
-        screen.blit(random_bkg(2+current_bkg), (1600-x, 0))
+        # region Logic to be run every 1/5 secs
+        if time.time() - now2 > 1/5:  # if the time elapsed is higher than 1/60
+            now2 = time.time()
+
         # endregion
         # region events handler
         for event in pygame.event.get():

@@ -1,6 +1,8 @@
 import pygame
+import threading
 import sys
 import time
+
 from random import randint
 
 list_of_imgs = ["imgs\\bkg_1house.png", "imgs\\bkg.png"]  # a list with all the images path
@@ -10,13 +12,24 @@ bkgs = [list_of_bgs[randint(0, len(list_of_bgs)-1)] for _ in range(1000)]   # a 
 # as list of possible images
 
 
+pygame.mixer.init()
+
+
+def background_music():
+    while True:
+        pygame.mixer.music.load("music\\Anttis instrumentals - A guy walks into a bar and orders 6 8.mp3")
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy() == True:
+            continue
+
+            
 def random_bkg(number):
     """ will pick a background based on the received number as input and return it could not seem usefull but i
     think later will"""
     global bkgs
     return bkgs[number]
-
-
+            
+            
 def play(screen):
     """
     Play function
@@ -24,8 +37,12 @@ def play(screen):
     Runs currently at 60fps
     It moves the default image to the left to 'teleport' to the end once not seen in the screen
     """
+
     global current_bkg
-    print('here')
+
+    x = threading.Thread(target=background_music, daemon=True)
+    x.start()
+
     bg = pygame.image.load("imgs\\bkg_1house.png")
 
     x = 0

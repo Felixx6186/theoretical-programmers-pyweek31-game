@@ -3,6 +3,7 @@ import threading
 import sys
 import time
 from random import randint
+from source.classes import Player, Bullet
 
 list_of_imgs = ["imgs\\bkg_1house.png", "imgs\\bkg.png"]  # a list with all the images path
 list_of_bgs = [pygame.image.load(x) for x in list_of_imgs]  # a list of images objects
@@ -24,7 +25,7 @@ def random_bkg(number):
     global bkgs
     return bkgs[number]
                         
-def play(screen, player):
+def play(screen, player: Player):
     """
     Play function
     Takes as input screen <- is the main app screen
@@ -39,6 +40,7 @@ def play(screen, player):
     now2 = time.time()
     speed = 6  # By increasing this the background will move faster to the left
     to_draw = 0
+    shooting =  False
     while 1:
         # region Logic to be run every 1/60 secs
         if time.time() - now > 0.0166666:  # if the time elapsed is higher than 1/60
@@ -58,7 +60,24 @@ def play(screen, player):
             screen.blit(random_bkg(1 + current_bkg), (800 - x, 0))
             screen.blit(random_bkg(2 + current_bkg), (1600 - x, 0))
             # endregion
+            player.jump()
             player.draw(to_draw)
+            if randint(0, 100) > 90 and shooting is False:
+                shooting = Bullet(screen, 5)
+            if shooting is not False :
+                if shooting.x > -100:
+                    shooting.x -= 12
+                if shooting.x <= -100:
+                    shooting = False
+            if shooting is not False:
+                shooting.shot()
+            if shooting is not False:
+                if shooting.x in range(player.x_coord, player.x_coord+100) and shooting.y in range(player.y_coord, player.y_coord+100):
+                    player.hp -= 1
+                    shooting = False
+                    if player.hp == 0:
+                        break
+
 
 
         # endregion
@@ -71,5 +90,9 @@ def play(screen, player):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    if player.jumping is False:
+                        player.jumping = True
         # endregion
         pygame.display.update()
